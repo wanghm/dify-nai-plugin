@@ -10,7 +10,7 @@ from dify_plugin.errors.model import CredentialsValidateFailedError
 logger = logging.getLogger(__name__)
 
 
-class DifyNaiPluginModelProvider(ModelProvider):
+class DifyNaiProvider(ModelProvider):
     def validate_provider_credentials(self, credentials: Mapping) -> None:
         """
         Validate provider credentials

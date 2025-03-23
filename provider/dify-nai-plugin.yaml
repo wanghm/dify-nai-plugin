@@ -37,7 +37,7 @@ model_credential_schema:
       zh_Hans: 输入模型名称
       ja_JP: モデル名を入力してください
   credential_form_schemas:
-    - variable: openai_api_key
+    - variable: nai_api_key
       label:
         en_US: API Key
         zh_Hans: API Key
@@ -50,7 +50,7 @@ model_credential_schema:
         ja_JP: APIキーを入力してください
 provider_credential_schema:
   credential_form_schemas:
-    - variable: openai_api_key
+    - variable: nai_api_key
       label:
         en_US: API Key
         zh_Hans: API Key
@@ -67,6 +67,6 @@ models:
       - "models/llm/*.yaml"
 extra:
   python:
-    provider_source: provider/openai.py
+    provider_source: provider/dify-nai-plugin.py
     model_sources:
       - "models/llm/llm.py"
