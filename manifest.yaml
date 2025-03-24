@@ -4,12 +4,8 @@ author: huimin
 name: new-dify-nai-plugin
 label:
   en_US: new-dify-nai-plugin
-  ja_JP: new-dify-nai-plugin
-  zh_Hans: new-dify-nai-plugin
 description:
   en_US: dify plugin for NAI
-  ja_JP: dify plugin for NAI
-  zh_Hans: dify plugin for NAI
 icon: icon.jpeg
 resource:
   memory: 268435456
