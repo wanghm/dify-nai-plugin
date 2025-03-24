@@ -1,7 +1,6 @@
 name: dify-nai-plugin
 version: 1.0.0
 description:
-  en: "Dify NAI Plugin for managing multiple LLMs"
   en_US: "Dify NAI Plugin for managing multiple LLMs"
 author: "YourName"
 license: "MIT"
@@ -32,11 +31,16 @@ label:
   en_US: "Plugin Label"
 created_at: 2025-03-24T00:00:00Z
 resource:
-  en: "resource_info"
   en_US: "resource_info"
+  memory: 512
 plugins:
-  en: ["plugin1", "plugin2"]
   en_US: ["plugin1", "plugin2"]
 meta:
-  en: "meta_info"
   en_US: "meta_info"
+  version: "1.0.0"
+  arch: ["amd64"]
+  runner:
+    type: "python"
+    version: "3.12"
+    language: "python"
+    entrypoint: "main.py"
