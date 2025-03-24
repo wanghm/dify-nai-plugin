@@ -1,10 +1,32 @@
-name: mistralai7b
-description: "Mistral AI 7B model for language generation tasks"
-version: 1.0
+model: mistralai7b
+label:
+  en_US: mistralai7b
 model_type: llm
-parameters:
-  max_tokens: 2048
-  temperature: 0.7
-  top_p: 0.9
-  frequency_penalty: 0.0
-  presence_penalty: 0.0
+features:
+  - multi-tool-call
+  - agent-thought
+  - stream-tool-call
+model_properties:
+  mode: chat
+  context_size: 163850
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+  - name: top_p
+    use_template: top_p
+  - name: presence_penalty
+    use_template: presence_penalty
+  - name: frequency_penalty
+    use_template: frequency_penalty
+  - name: max_tokens
+    use_template: max_tokens
+    default: 5120
+    min: 1
+    max: 163850
+  - name: response_format
+    use_template: response_format
+pricing:
+  input: '0.001'
+  output: '0.001'
+  unit: '0.001'
+  currency: USD
