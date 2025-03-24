@@ -101,9 +101,7 @@ class DifyNaiPluginLargeLanguageModel(LargeLanguageModel):
         except Exception as ex:
             raise CredentialsValidateFailedError(str(ex))
 
-    def get_customizable_model_schema(
-        self, model: str, credentials: dict
-    ) -> AIModelEntity:
+    def get_customizable_model_schema(self, model: str, credentials: dict) -> AIModelEntity:
         """
         If your model supports fine-tuning, this method returns the schema of the base model
         but renamed to the fine-tuned model name.

@@ -1,46 +1,53 @@
-name: dify-nai-plugin
-version: 1.0.0
-description:
-  en_US: "Dify NAI Plugin for managing multiple LLMs"
-author: "YourName"
-license: "MIT"
-main: main.py
-icon: _assets/icon.jpeg
-permissions:
-  - models
-  - endpoints
-  - apps
-  - tools
-  - storage
-  - resources
-models:
-  - name: Qwen_model_3B
-    path: models/llm/Qwen_model_3B/llm.py
-  - name: mistralai7b
-    path: models/llm/mistralai7b/llm.py
-endpoints:
-  - name: chat_completions
-    path: /v1/chat/completions
-  - name: models
-    path: /v1/models
-  - name: embeddings
-    path: /v1/embeddings
-type: plugin
+provider: dify-nai-plugin
 label:
-  en: "Plugin Label"
-  en_US: "Plugin Label"
-created_at: 2025-03-24T00:00:00Z
-resource:
-  en_US: "resource_info"
-  memory: 512
-plugins:
-  en_US: ["plugin1", "plugin2"]
-meta:
-  en_US: "meta_info"
-  version: "1.0.0"
-  arch: ["amd64"]
-  runner:
-    type: "python"
-    version: "3.12"
-    language: "python"
-    entrypoint: "main.py"
+  en_US: NewDifyNaiPlugin
+description:
+  en_US: Models provided by new-dify-nai-plugin.
+icon_small:
+  en_US: icon.jpeg
+icon_large:
+  en_US: icon.jpeg
+background: "#E5E7EB"
+help:
+  title:
+    en_US: Get your API Key from new-dify-nai-plugin
+  url:
+    en_US: https://__put_your_url_here__/account/api-keys
+supported_model_types:
+  - llm
+configurate_methods:
+  - predefined-model
+  - customizable-model
+model_credential_schema:
+  model:
+    label:
+      en_US: Model Name
+    placeholder:
+      en_US: Enter your model name
+  credential_form_schemas:
+    - variable: openai_api_key
+      label:
+        en_US: API Key
+      type: secret-input
+      required: true
+      placeholder:
+        en_US: Enter your API Key
+provider_credential_schema:
+  credential_form_schemas:
+    - variable: openai_api_key
+      label:
+        en_US: API Key
+      type: secret-input
+      required: true
+      placeholder:
+        en_US: Enter your API Key
+models:
+  llm:
+    predefined:
+      - "models/llm/*.yaml"
+extra:
+  python:
+    provider_source: provider/dify-nai-plugin.py
+    model_sources:
+      - "models/llm/mistralai7b.py"
+      - "models/llm/Qwen_model_3B.py"
