@@ -1,53 +1,41 @@
-provider: dify-nai-plugin
+version: 0.0.1
+type: plugin
+author: huimin
+name: new-dify-nai-plugin
 label:
-  en_US: NewDifyNaiPlugin
+  en_US: new-dify-nai-plugin
+  ja_JP: new-dify-nai-plugin
+  zh_Hans: new-dify-nai-plugin
 description:
-  en_US: Models provided by new-dify-nai-plugin.
-icon_small:
-  en_US: icon.jpeg
-icon_large:
-  en_US: icon.jpeg
-background: "#E5E7EB"
-help:
-  title:
-    en_US: Get your API Key from new-dify-nai-plugin
-  url:
-    en_US: https://__put_your_url_here__/account/api-keys
-supported_model_types:
-  - llm
-configurate_methods:
-  - predefined-model
-  - customizable-model
-model_credential_schema:
-  model:
-    label:
-      en_US: Model Name
-    placeholder:
-      en_US: Enter your model name
-  credential_form_schemas:
-    - variable: openai_api_key
-      label:
-        en_US: API Key
-      type: secret-input
-      required: true
-      placeholder:
-        en_US: Enter your API Key
-provider_credential_schema:
-  credential_form_schemas:
-    - variable: openai_api_key
-      label:
-        en_US: API Key
-      type: secret-input
-      required: true
-      placeholder:
-        en_US: Enter your API Key
-models:
-  llm:
-    predefined:
-      - "models/llm/*.yaml"
-extra:
-  python:
-    provider_source: provider/dify-nai-plugin.py
-    model_sources:
-      - "models/llm/mistralai7b.py"
-      - "models/llm/Qwen_model_3B.py"
+  en_US: dify plugin for NAI
+  ja_JP: dify plugin for NAI
+  zh_Hans: dify plugin for NAI
+icon: icon.jpeg
+resource:
+  memory: 268435456
+  permission:
+    model:
+      enabled: true
+      llm: true
+      text_embedding: false
+      rerank: false
+      tts: false
+      speech2text: false
+      moderation: false
+    endpoint:
+      enabled: true
+plugins:
+  models:
+    - provider/dify-nai-plugin.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+created_at: 2025-03-24T23:18:53.558535+09:00
+privacy: PRIVACY.md
+verified: false
