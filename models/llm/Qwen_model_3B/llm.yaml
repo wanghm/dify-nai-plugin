@@ -1,0 +1,10 @@
+name: Qwen_model_3B
+description: "Qwen 3B model for language generation tasks"
+version: 1.0
+model_type: llm
+parameters:
+  max_tokens: 2048
+  temperature: 0.7
+  top_p: 0.9
+  frequency_penalty: 0.0
+  presence_penalty: 0.0

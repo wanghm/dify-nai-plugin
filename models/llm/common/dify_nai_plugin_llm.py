@@ -1,6 +1,7 @@
 import logging
 from collections.abc import Generator
 from typing import Optional, Union
+import requests
 
 from dify_plugin import LargeLanguageModel
 from dify_plugin.entities import I18nObject
@@ -22,8 +23,7 @@ from dify_plugin.entities.model.message import (
 
 logger = logging.getLogger(__name__)
 
-
-class DifyNaiPlugimLargeLanguageModel(LargeLanguageModel):
+class DifyNaiPluginLargeLanguageModel(LargeLanguageModel):
     """
     Model class for dify-nai-plugin large language model.
     """
@@ -52,8 +52,24 @@ class DifyNaiPlugimLargeLanguageModel(LargeLanguageModel):
         :param user: unique user id
         :return: full response or stream response chunk generator result
         """
-        pass
-   
+        headers = {
+            "Authorization": f"Bearer {credentials['api_key']}",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "model": model,
+            "messages": [message.to_dict() for message in prompt_messages],
+            "parameters": model_parameters,
+            "tools": [tool.to_dict() for tool in tools] if tools else None,
+            "stop": stop,
+            "stream": stream,
+            "user": user
+        }
+        response = requests.post(f"{credentials['api_url']}/v1/chat/completions", headers=headers, json=data)
+        response.raise_for_status()
+        result = response.json()
+        return LLMResult(choices=result["choices"])
+
     def get_num_tokens(
         self,
         model: str,

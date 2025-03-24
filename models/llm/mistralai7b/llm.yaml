@@ -1,8 +1,8 @@
-model: nai-customer-model
+model: Qwen_model_3B
 label:
-  zh_Hans: nai-customer-model
-  en_US: nai-customer-model
-  ja_JP: nai-customer-model
+  zh_Hans: Qwen_model_3B
+  en_US: Qwen_model_3B
+  ja_JP: Qwen_model_3B
 model_type: llm
 features:
   - multi-tool-call
