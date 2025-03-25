@@ -1,9 +1,9 @@
 version: 0.0.1
 type: plugin
 author: huimin
-name: new-dify-nai-plugin
+name: dify-nai-plugin
 label:
-  en_US: new-dify-nai-plugin
+  en_US: dify-nai-plugin
 description:
   en_US: dify plugin for NAI
 icon: icon.jpeg

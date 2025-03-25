@@ -21,6 +21,14 @@ from dify_plugin.entities.model.message import (
     PromptMessageTool,
 )
 
+from core.model_runtime.errors.invoke import (
+    InvokeError,
+    InvokeServerUnavailableError,
+    InvokeRateLimitError,
+    InvokeAuthorizationError,
+    InvokeBadRequestError
+)
+
 logger = logging.getLogger(__name__)
 
 class DifyNaiPluginLargeLanguageModel(LargeLanguageModel):
@@ -52,23 +60,76 @@ class DifyNaiPluginLargeLanguageModel(LargeLanguageModel):
         :param user: unique user id
         :return: full response or stream response chunk generator result
         """
+        # エンドポイントの処理
+        api_endpoint = credentials.get('api_endpoint', '').rstrip('/')
+        if not api_endpoint:
+            raise ValueError("API Endpoint is required")
+    
         headers = {
             "Authorization": f"Bearer {credentials['api_key']}",
             "Content-Type": "application/json"
         }
+        #data = {
+        #    "model": model,
+        #    "messages": [message.to_dict() for message in prompt_messages],
+        #    "parameters": model_parameters,
+        #    "tools": [tool.to_dict() for tool in tools] if tools else None,
+        #    "stop": stop,
+        #    "stream": stream,
+        #    "user": user
+        #}
+        #response = requests.post(f"{credentials['api_url']}/v1/chat/completions", headers=headers, json=data)
+        #response.raise_for_status()
+        #result = response.json()
+        #return LLMResult(choices=result["choices"])
         data = {
             "model": model,
             "messages": [message.to_dict() for message in prompt_messages],
-            "parameters": model_parameters,
-            "tools": [tool.to_dict() for tool in tools] if tools else None,
-            "stop": stop,
             "stream": stream,
-            "user": user
         }
-        response = requests.post(f"{credentials['api_url']}/v1/chat/completions", headers=headers, json=data)
-        response.raise_for_status()
-        result = response.json()
-        return LLMResult(choices=result["choices"])
+
+        # オプションパラメータの追加
+        if model_parameters:
+            data.update(model_parameters)
+        
+        if tools:
+            data["tools"] = [tool.to_dict() for tool in tools]
+        
+        if stop:
+            data["stop"] = stop
+        
+        if user:
+            data["user"] = user
+
+        # API Call
+        try:
+            response = requests.post(
+                f"{api_endpoint}/v1/chat/completions", 
+                headers=headers, 
+                json=data,
+                stream=stream
+            )
+            response.raise_for_status()
+        
+            # Process Responses
+            if stream:
+                return self._process_stream_response(response)
+            else:
+                result = response.json()
+                return LLMResult(choices=result.get("choices", []))
+        
+        except requests.RequestException as e:
+            logger.error(f"API request failed: {e}")
+            raise CredentialsValidateFailedError(f"API request failed: {e}")
+
+    def _process_stream_response(self, response):
+        """
+        Process Stream response
+        """
+        for chunk in response.iter_content(chunk_size=1024):
+            if chunk:
+                # Process Chunk
+                yield chunk
 
     def get_num_tokens(
         self,
@@ -122,3 +183,21 @@ class DifyNaiPluginLargeLanguageModel(LargeLanguageModel):
         )
 
         return entity
+
+@property
+def _invoke_error_mapping(self) -> dict[type[InvokeError], list[type[Exception]]]:
+    """
+    Map model invoke error to unified error
+    The key is the error type thrown to the caller
+    The value is the error type thrown by the model,
+    which needs to be converted into a unified error type for the caller.
+
+    :return: Invoke error mapping
+    """
+    return {
+        InvokeConnectionError: [ConnectionError],
+        InvokeServerUnavailableError: [ServerUnavailableError],
+        InvokeRateLimitError: [RateLimitError],
+        InvokeAuthorizationError: [AuthorizationError],
+        InvokeBadRequestError: [BadRequestError]
+    }

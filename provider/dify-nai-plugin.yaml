@@ -1,6 +1,6 @@
-provider: new-dify-nai-plugin
+provider: dify-nai-plugin
 label:
-  en_US: NewDifyNaiPlugin
+  en_US: DifyNaiPlugin
 description:
   en_US: Models provided by new-dify-nai-plugin.
 icon_small:
@@ -10,9 +10,9 @@ icon_large:
 background: "#E5E7EB"
 help:
   title:
-    en_US: Get your API Key from new-dify-nai-plugin
+    en_US: Get your API Key from NAI
   url:
-    en_US: https://__put_your_url_here__/account/api-keys
+    en_US: https://__put_your_NAI_endpoint_here__/#/page/endpoints/main/api-keys
 supported_model_types:
   - llm
 configurate_methods:
@@ -25,29 +25,30 @@ model_credential_schema:
     placeholder:
       en_US: Enter your model name
   credential_form_schemas:
-    - variable: openai_api_key
+    - variable: api_endpoint
       label:
-        en_US: API Key
-      type: secret-input
+        en_US: API Endpoint
+      type: text-input
       required: true
       placeholder:
-        en_US: Enter your API Key
+        en_US: Enter your NAI API Endpoint
 provider_credential_schema:
   credential_form_schemas:
-    - variable: openai_api_key
+    - variable: api_key
       label:
         en_US: API Key
       type: secret-input
       required: true
       placeholder:
-        zh_Hans: 在此输入您的 API Key
-        en_US: Enter your API Key
+        en_US: Enter your NAI API Key
 models:
   llm:
     predefined:
-      - "models/llm/*.yaml"
+      - "models/llm/mistralai7b.yaml"
+      - "models/llm/Qwen_model_3B.yaml"
 extra:
   python:
     provider_source: provider/dify-nai-plugin.py
     model_sources:
-      - "models/llm/*.py"
+      - "models/llm/mistralai7b.py"
+      - "models/llm/Qwen_model_3B.py"
